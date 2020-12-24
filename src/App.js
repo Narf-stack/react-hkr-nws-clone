@@ -1,5 +1,9 @@
 import logo from './logo.svg';
 import './App.css';
+import {StoriesIds} from './components/Posts'
+
+
+
 
 
 function App() {
@@ -18,6 +22,7 @@ function App() {
         >
           Learn React
         </a>
+        <StoriesIds />
       </header>
     </div>
   );
