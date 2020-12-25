@@ -2,11 +2,11 @@ import axios from "axios";
 import React from 'react';
 
 
-export class StoriesIds extends React.Component{
+export default class StoriesIds extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      posts: [1,2],
+      posts: [],
       links:[],
       test: 'test'
     }
@@ -30,9 +30,6 @@ export class StoriesIds extends React.Component{
     this.setState({ posts: posts }, () => {
       console.log(this.state.posts, 'posts');
     });
-    // await this.setState({ test: 'update' }, () => {
-    //   console.log(this.state.test, 'test');
-    // });
     // this.setState({ posts: posts });
   }
 
@@ -79,7 +76,7 @@ export class StoriesIds extends React.Component{
     this.setState({
       test: 'done'
     })
-    console.log(this.state.posts[0], 'posts dans test');
+    // console.log(this.state.posts[0], 'posts dans test');
   }
 
 
@@ -92,6 +89,7 @@ export class StoriesIds extends React.Component{
   }
 
   render(){
+      const { posts } = this.state;
     return(
       <React.Fragment>
           hehehe
@@ -99,7 +97,7 @@ export class StoriesIds extends React.Component{
           <button onClick={this.handleTest}></button>
           {this.state.posts}
         <ul>
-          {this.state.posts.map((post,index) =>(
+          {posts.map((post,index) =>(
             <li key={index}>{post.title}</li>
               )
             )
