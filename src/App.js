@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-// import {StoriesIds} from './components/Posts'
+import Posts from './components/Posts'
 import Loading from './components/Loading'
 import React from 'react'
 import {
@@ -9,12 +9,10 @@ import {
   Link,
   Switch
 } from 'react-router-dom'
+// import User from './components/User'
 
 
-const topPosts = React.lazy(() => import('./components/Posts'))
-const newPosts = React.lazy(() => import('./components/Posts'))
-const test = React.lazy(() => import('./Test'))
-
+const User = React.lazy(()=> import('./components/User'))
 
 
 
@@ -22,14 +20,15 @@ function App() {
   return (
      <Router>
         <div>
-          <ul>
-            <li><Link to='/'>New</Link></li>
-            <li><Link to='/top'>Top</Link></li>
-          </ul>
+          <div className='row space-around'>
+            <Link to='/'>New</Link>
+            <Link to='/top'>Top</Link>
+          </div>
           <hr />
           <React.Suspense fallback={<Loading />}>
-            <Route exact path='/' component={newPosts} />
-            <Route path='/top' component={topPosts} />
+            <Route exact path='/'  render={() => <Posts type='new'/>}  />
+            <Route exact path='/top' render={() => <Posts type='top'/>}  />
+            <Route exact path='/user' component={User} />
             <Route render={()=><h1>404</h1>} />
          </React.Suspense>
       </div>

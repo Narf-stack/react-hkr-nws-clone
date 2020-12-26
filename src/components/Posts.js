@@ -1,14 +1,15 @@
 import axios from "axios";
 import React from 'react';
+import Lipost from './Lipost'
 
-
-export default class StoriesIds extends React.Component{
+export default class Posts extends React.Component{
   constructor(props){
     super(props)
     this.state = {
       posts: [],
       links:[],
-      test: 'test'
+      test: 'test',
+      type:null
     }
     this.getLinks = this.getLinks.bind(this)
     this.getPosts = this.getPosts.bind(this)
@@ -22,8 +23,13 @@ export default class StoriesIds extends React.Component{
 
   componentDidMount(){
     this.initialize()
+    // console.log(this.props)
     // this.getPosts(this.linksTab)
     // this.updatePosts(this.posts_object)
+    this.setState({ type: this.props.type }, () => {
+      console.log(this.state.type, 'type');
+    });
+
   }
 
   updatePosts(posts) {
@@ -35,8 +41,10 @@ export default class StoriesIds extends React.Component{
 
 
   getLinks() {
+    const type = this.props.type
+    // console.log(type)
     axios
-      .get("https://hacker-news.firebaseio.com/v0/topstories.json")
+      .get(`https://hacker-news.firebaseio.com/v0/${type}stories.json`)
       .then(result => {
         if (!result.data){
           throw new Error(result.message)
@@ -97,9 +105,23 @@ export default class StoriesIds extends React.Component{
           <button onClick={this.handleTest}></button>
           {this.state.posts}
         <ul>
-          {posts.map((post,index) =>(
-            <li key={index}>{post.title}</li>
+          {posts.map((post) =>{
+
+            return(
+            // <li key={index}>{post.title}</li>
+            // const {by,descendants,id,score,time,title,type,url } = post
+            <li key={post.id}><Lipost
+              by={post.by}
+              descendants={post.descendants}
+              id={post.id}
+              score={post.score}
+              time={post.time}
+              title={post.title}
+              type={post.type}
+              url={post.url}
+            /></li>
               )
+            }
             )
           }
         </ul>
