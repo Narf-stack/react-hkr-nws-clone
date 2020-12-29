@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from 'react';
 import Lipost from './Lipost'
+import {formatDate} from '../utils/helpers'
 
 export default class Posts extends React.Component{
   constructor(props){
@@ -21,12 +22,12 @@ export default class Posts extends React.Component{
     this.handleTest = this.handleTest.bind(this)
   }
 
-  componentDidMount(){
-    this.initialize()
+  async componentDidMount(){
+    await this.initialize()
     // console.log(this.props)
     // this.getPosts(this.linksTab)
     // this.updatePosts(this.posts_object)
-    this.setState({ type: this.props.type }, () => {
+    await this.setState({ type: this.props.type }, () => {
       console.log(this.state.type, 'type');
     });
 
@@ -61,6 +62,7 @@ export default class Posts extends React.Component{
         return this.getPosts(tab)
       })
       .then(posts => {
+        // console.log(posts)
         this.updatePosts(posts)
       })
       .catch(err => {
@@ -72,7 +74,10 @@ export default class Posts extends React.Component{
     tab.forEach(link =>
       fetch(link)
           .then(result => result.json())
-          .then(post => this.posts_object.push(post))
+          .then(post => {
+            // console.log(post)
+            this.posts_object.push(post)
+          })
       .catch(err => {
         console.warn(err);
       })
@@ -108,8 +113,6 @@ export default class Posts extends React.Component{
           {posts.map((post) =>{
 
             return(
-            // <li key={index}>{post.title}</li>
-            // const {by,descendants,id,score,time,title,type,url } = post
             <li key={post.id}><Lipost
               by={post.by}
               descendants={post.descendants}
@@ -129,95 +132,3 @@ export default class Posts extends React.Component{
     )
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // getLinks() {
-  //   axios
-  //     .get("https://hacker-news.firebaseio.com/v0/topstories.json")
-  //     .then(result => {
-  //       if (!result.data){
-  //         throw new Error(result.message)
-  //       }
-  //       this.setState({
-  //         links: result.data.map(id=>{
-  //               return `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`
-  //             })
-  //       })
-  //     })
-  //     .catch(err => {
-  //       console.warn(err);
-  //     });
-  // }
-
-  // getLinks() {
-  //   axios
-  //     .get("https://hacker-news.firebaseio.com/v0/topstories.json")
-  //     .then(result => {
-  //       if (!result.data){
-  //         throw new Error(result.message)
-  //       }
-  //       return result.data.map(id=>{
-  //               return `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`
-  //             })
-  //     })
-  //     .then(links =>
-  //       {
-  //       links.slice(0,3).forEach(link =>
-  //         fetch(link)
-  //             .then(result => result.json())
-  //             .then(post => this.posts_object.push(post))
-  //       )}
-
-  //     )
-  //     .catch(err => {
-  //       console.warn(err);
-  //     });
-  //     return this.posts_object
-  // }
-
-
-
-
-  // getPosts(links) {
-  //     console.log(links)
-  //   links.map(link=>{
-  //     axios
-  //       .get(link)
-  //       .then(result => {
-  //         if (!result.data){
-  //           throw new Error(result.message)
-  //         }
-  //         console.log(result.data)
-  //       })
-  //       .catch(err => {
-  //         console.warn(err);
-  //       });
-  //   })
-
-  // }
-
-  // createLink(ids) {
-  //   return ids.map(id=>{
-  //               return `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`
-  //             })
-
-  // }
